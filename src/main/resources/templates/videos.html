@@ -1,204 +1,295 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Video Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #f5f6fa;
-            --text-color: #333;
-            --card-bg: #fff;
-            --header-bg: linear-gradient(135deg, #667eea, #764ba2);
-            --shadow-color: rgba(0, 0, 0, 0.15);
-        }
+  <meta charset="UTF-8">
+  <title th:text="${role == 'ADMIN'} ? 'Admin Dashboard | Video Platform' : 'Student Portal | Video Platform'">Video Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #667eea;
+      --secondary: #764ba2;
+      --accent: #43cea2;
+      --bg: #f7f8fc;
+      --card-bg: #fff;
+      --text: #333;
+      --shadow: rgba(0, 0, 0, 0.15);
+    }
 
-        body.dark {
-            --bg-color: #1e1e2f;
-            --text-color: #eaeaea;
-            --card-bg: #2a2a3d;
-            --header-bg: linear-gradient(135deg, #232526, #414345);
-            --shadow-color: rgba(255, 255, 255, 0.1);
-        }
+    body.dark {
+      --bg: #121212;
+      --card-bg: #1e1e2f;
+      --text: #eaeaea;
+      --shadow: rgba(255, 255, 255, 0.1);
+    }
 
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg-color);
-            color: var(--text-color);
-            transition: background 0.4s, color 0.4s;
-        }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.4s, color 0.4s;
+    }
 
-        header {
-            background: var(--header-bg);
-            color: white;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 12px var(--shadow-color);
-        }
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
 
-        .logo {
-            font-size: 1.6rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-        }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
 
-        .logo span {
-            margin-left: 8px;
-        }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+    .toggle-btn, .logout-link {
+      background: none;
+      border: 1px solid white;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.3s;
+    }
 
-        .toggle-btn {
-            background: none;
-            border: 1px solid white;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: 0.3s;
-        }
+    .toggle-btn:hover, .logout-link:hover {
+      background: white;
+      color: var(--secondary);
+      transform: scale(1.05);
+    }
 
-        .toggle-btn:hover {
-            background: white;
-            color: #764ba2;
-        }
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, var(--secondary), var(--accent));
+      color: white;
+      border-bottom-left-radius: 50px;
+      border-bottom-right-radius: 50px;
+      box-shadow: 0 10px 20px var(--shadow);
+    }
 
-        .logout-link {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            border: 1px solid white;
-            padding: 5px 10px;
-            border-radius: 6px;
-            transition: 0.3s;
-        }
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
 
-        .logout-link:hover {
-            background: white;
-            color: #764ba2;
-        }
+    .hero p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
 
-        .upload-section {
-            text-align: center;
-            margin-top: 25px;
-        }
+    .search-bar {
+      text-align: center;
+      margin-top: -20px;
+    }
 
-        .upload-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: 0.3s;
-        }
+    .search-bar input {
+      padding: 10px 20px;
+      border: 2px solid var(--secondary);
+      border-radius: 25px;
+      width: 60%;
+      max-width: 500px;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
 
-        .upload-btn:hover {
-            transform: scale(1.05);
-        }
+    .search-bar input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
 
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            padding: 40px;
-        }
+    .stats-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
+      margin-top: 40px;
+      padding: 0 40px;
+    }
 
-        .video-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 6px 20px var(--shadow-color);
-            transition: transform 0.3s, background 0.3s;
-        }
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 6px 20px var(--shadow);
+      padding: 25px;
+      text-align: center;
+      flex: 1 1 250px;
+      transition: 0.3s;
+    }
 
-        .video-card:hover {
-            transform: scale(1.05);
-        }
+    .upload-section {
+      text-align: center;
+      margin: 50px 0;
+    }
 
-        video {
-            width: 100%;
-            border-bottom: 3px solid #667eea;
-        }
+    .upload-box {
+      background: var(--card-bg);
+      border: 2px dashed var(--secondary);
+      padding: 40px;
+      border-radius: 20px;
+      display: inline-block;
+      transition: 0.3s;
+    }
 
-        .video-info {
-            padding: 15px;
-            text-align: center;
-        }
+    .upload-btn {
+      margin-top: 15px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
 
-        .video-info h3 {
-            margin: 0;
-            color: var(--text-color);
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+      padding: 40px;
+    }
 
-        footer {
-            text-align: center;
-            padding: 15px;
-            font-size: 0.9rem;
-            color: var(--text-color);
-            background: var(--card-bg);
-            border-top: 1px solid #ddd;
-        }
-    </style>
+    .video-card {
+      position: relative;
+      background: var(--card-bg);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .video-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 30px var(--shadow);
+    }
+
+    .video-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    video {
+      width: 100%;
+      border-bottom: 3px solid var(--primary);
+      object-fit: cover;
+      height: 180px;
+    }
+
+    .video-info {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .video-info h3 {
+      margin: 0;
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--card-bg);
+      border-top: 1px solid #ddd;
+    }
+  </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">
-        🎬 <span>Video Platform</span>
-    </div>
-    <div class="user-info">
-        <span th:text="${#authentication.name}">User</span>
-        <button class="toggle-btn" onclick="toggleMode()">🌙 Dark Mode</button>
-        <a class="logout-link" th:href="@{/logout}">Logout</a>
-    </div>
+  <div class="logo" th:text="${role == 'ADMIN'} ? '🎬 Admin Dashboard' : '🎓 Student Portal'">Video Platform</div>
+  <div class="user-info">
+    <span th:text="${username}">User</span>
+    <button class="toggle-btn" onclick="toggleMode()">🌙 Dark Mode</button>
+    <a class="logout-link" th:href="@{/logout}">Logout</a>
+  </div>
 </header>
 
-<div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-    <div class="upload-section">
-        <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
-            <input type="file" name="file" accept="video/*" required>
-            <button class="upload-btn">Upload Video</button>
-        </form>
-    </div>
+<div class="hero">
+  <h1 th:text="'Welcome, ' + ${username} + '!'">Welcome!</h1>
+  <p th:text="${role == 'ADMIN'} ?
+     'Manage your platform, track uploads, and engage with your students in style 🚀' :
+     'Explore the latest uploaded videos and start learning today! 🎥'"></p>
 </div>
 
-<div class="video-grid">
-    <div class="video-card" th:each="video : ${videos}">
-        <video controls th:src="@{'/videos/' + ${video.id}}"></video>
-        <div class="video-info">
-            <h3 th:text="${video.title}">Video Title</h3>
-        </div>
+<!-- 🔍 Search for videos -->
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="Search for a video..." onkeyup="filterVideos()">
+</div>
+
+<!-- 👑 Admin-only Section -->
+<div th:if="${role == 'ADMIN'}">
+  <div class="stats-container">
+    <div class="stat-card"><h2 th:text="${totalVideos}">0</h2><p>Total Videos</p></div>
+    <div class="stat-card"><h2 th:text="${totalUsers}">0</h2><p>Registered Users</p></div>
+    <div class="stat-card"><h2 th:text="${totalViews}">0</h2><p>Total Views</p></div>
+  </div>
+
+  <div class="upload-section">
+    <div class="upload-box">
+      <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="video/*" required>
+        <br>
+        <button class="upload-btn">Upload Video</button>
+      </form>
     </div>
+  </div>
+</div>
+
+<!-- 🎞️ Videos Grid -->
+<div class="video-grid" id="videoGrid">
+  <div class="video-card" th:each="video : ${videos}">
+    <a th:href="@{'/videos/watch/' + ${video.filename}}" class="video-link">
+      <video muted preload="metadata"
+             th:src="@{'/videos/stream/' + ${video.filename}}"
+             onmouseover="this.play()" onmouseout="this.pause(); this.currentTime=0;"></video>
+      <div class="video-info">
+        <h3 th:text="${video.title != null ? video.title : video.filename}">Video Title</h3>
+      </div>
+    </a>
+  </div>
 </div>
 
 <footer>
-    © 2025 Video Platform | Designed by Vivek Bagde | v7.0
+  © 2025 Video Platform | Designed by Vivek Bagde 💻
 </footer>
 
 <script>
-    function toggleMode() {
-        document.body.classList.toggle("dark");
-        const btn = document.querySelector(".toggle-btn");
-        if (document.body.classList.contains("dark")) {
-            btn.textContent = "☀️ Light Mode";
-        } else {
-            btn.textContent = "🌙 Dark Mode";
-        }
-    }
+  function toggleMode() {
+    document.body.classList.toggle("dark");
+    const btn = document.querySelector(".toggle-btn");
+    btn.textContent = document.body.classList.contains("dark") ? "☀️ Light Mode" : "🌙 Dark Mode";
+  }
+
+  function filterVideos() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const cards = document.querySelectorAll('.video-card');
+    cards.forEach(card => {
+      const title = card.querySelector('.video-info h3').textContent.toLowerCase();
+      card.style.display = title.includes(input) ? '' : 'none';
+    });
+  }
 </script>
+
 </body>
 </html>
 

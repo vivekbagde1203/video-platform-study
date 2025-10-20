@@ -19,16 +19,42 @@ import java.util.List;
 
 @Controller
 public class VideoController {
-    private final VideoService service;
-    public VideoController(VideoService service) { this.service = service; }
 
+    private final VideoService service;
+
+    public VideoController(VideoService service) {
+        this.service = service;
+    }
+
+    // ✅ Role-based dashboard selection
     @GetMapping({"/", "/videos"})
-    public String list(Model model) {
-        List<VideoMeta> all = service.listAll();
-        model.addAttribute("videos", all);
+    public String list(Model model, Authentication auth) {
+        List<VideoMeta> allVideos = service.listAll();
+        model.addAttribute("videos", allVideos);
+
+        if (auth != null) {
+            String username = auth.getName();
+            model.addAttribute("username", username);
+
+            boolean isAdmin = auth.getAuthorities().stream()
+                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+            if (isAdmin) {
+                model.addAttribute("role", "ADMIN");
+                return "admin"; // ✅ show admin dashboard (admin.html)
+            } else {
+                model.addAttribute("role", "STUDENT");
+                return "videos"; // ✅ show student view (videos.html)
+            }
+        }
+
+        // For unauthenticated access
+        model.addAttribute("username", "Guest");
+        model.addAttribute("role", "GUEST");
         return "videos";
     }
 
+    // 🎥 Stream video inline
     @GetMapping("/videos/stream/{filename}")
     @ResponseBody
     public ResponseEntity<Resource> stream(@PathVariable String filename) {
@@ -40,20 +66,25 @@ public class VideoController {
                 .body(r);
     }
 
+    // 📥 Secure download (only ADMIN/DOWNLOAD)
     @GetMapping("/videos/download/{filename}")
     public ResponseEntity<Resource> download(@PathVariable String filename, Authentication auth) throws IOException {
         boolean canDownload = auth.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_DOWNLOAD") || a.getAuthority().equals("ROLE_ADMIN"));
+
         if (!canDownload) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+
         Resource resource = service.getVideoResource(filename);
         if (!resource.exists()) {
             return ResponseEntity.notFound().build();
         }
+
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\""); 
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
         headers.add(HttpHeaders.CACHE_CONTROL, "no-store, no-cache, must-revalidate, max-age=0");
+
         return ResponseEntity.ok()
                 .headers(headers)
                 .contentLength(resource.contentLength())
@@ -61,3 +92,4 @@ public class VideoController {
                 .body(resource);
     }
 }
+
