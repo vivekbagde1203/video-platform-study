@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Admin Dashboard</title></head>
+<body>
+<h1>Admin Dashboard</h1>
+<form th:action="@{/logout}" method="post" style="float:right;"><button type="submit">Logout</button></form>
+<div style="clear:both"></div>
+<hr/>
+<h2>Upload Video</h2>
+<form method="post" action="/admin/upload" enctype="multipart/form-data">
+    <input type="file" name="file" accept="video/*" required/>
+    <button type="submit">Upload Video</button>
+</form>
+<h2>Videos</h2>
+<table><tr><th>ID</th><th>Name</th><th>Action</th></tr>
+<tr th:each="v : ${videos}"><td th:text="${v.id}"></td><td th:text="${v.originalName}"></td><td><form method="post" action="/admin/delete"><input type="hidden" name="id" th:value="${v.id}"/><button>Delete</button></form></td></tr>
+</table>
+<hr/>
+<h2>Users</h2>
+<form method="post" action="/admin/createUser"><input type="text" name="username" required placeholder="username"/> <input type="password" name="password" required placeholder="password"/> <select name="role"><option value="STUDENT">STUDENT</option><option value="DOWNLOAD">DOWNLOAD</option><option value="ADMIN">ADMIN</option></select> <button type="submit">Create</button></form>
+<table><tr><th>ID</th><th>User</th><th>Role</th><th>Action</th></tr><tr th:each="u : ${users}"><td th:text="${u.id}"></td><td th:text="${u.username}"></td><td th:text="${u.role}"></td><td><form method="post" action="/admin/deleteUser"><input type="hidden" name="id" th:value="${u.id}"/><button>Delete</button></form></td></tr></table>
+<hr/>
+<h3>HLS Token Generation</h3>
+<form method="get" action="/admin/generateHlsToken">
+    <label>HLS Video ID (folder name):</label>
+    <input type="text" name="videoId" placeholder="e.g. sample" required/>
+    <button type="submit">Generate HLS URL</button>
+</form>
+<div th:if="${hlsUrl}"><p>HLS URL (short-lived): <a th:href="${hlsUrl}" th:text="${hlsUrl}"></a></p></div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Videos</title></head>
+<body>
+<h1>Available Videos</h1>
+<form th:action="@{/logout}" method="post"><button type="submit">Logout</button></form>
+<hr/>
+<ul>
+<li th:each="v : ${videos}">
+    <p th:text="${v.originalName}"></p>
+    <video id="video-[[${v.id}]]" width="640" controls controlsList="nodownload" oncontextmenu="return false;">
+        <source th:src="@{'/videos/stream/' + ${v.filename}}" type="video/mp4"/>
+        Your browser does not support video playback.
+    </video>
+    <div th:if="${#authorization.expression('hasRole(''ADMIN'') or hasRole(''DOWNLOAD'')')}">
+        <a th:href="@{'/videos/download/' + ${v.filename}}">Download</a>
+    </div>
+</li>
+</ul>
+
+<hr/>
+<h3>HLS Test Player</h3>
+<input id="hlsUrlInput" type="text" placeholder="Paste signed HLS URL here" style="width:80%"/>
+<button onclick="playHls()">Play HLS</button>
+<video id="hlsPlayer" controls width="800"></video>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+function playHls(){
+  var url = document.getElementById('hlsUrlInput').value;
+  var video = document.getElementById('hlsPlayer');
+  if (Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource(url);
+    hls.attachMedia(video);
+  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = url;
+  } else {
+    alert('HLS not supported in this browser');
+  }
+}
+</script>
+</body>
+</html>
