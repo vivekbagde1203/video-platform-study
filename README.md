@@ -34,7 +34,7 @@
 - Token expiry is controlled by `app.jwt.expiration-seconds` (default 300s)
 admin/adminpass
 mvn clean install 
-mvn spring-boot:run/java -jar target/java -jar target/video-platform-0.0.1-SNAPSHOT.jar
+mvn spring-boot:run or java -jar target/java -jar target/video-platform-0.0.1-SNAPSHOT.jar
 
 
 lsof -i :8080 
