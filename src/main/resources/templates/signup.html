@@ -1,1 +1,101 @@
-<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><title>Signup</title></head><body><h1>Signup</h1><form method="post" action="/signup"><label>Username</label><input type="text" name="username" required><label>Password</label><input type="password" name="password" required><button type="submit">Sign Up</button></form></body></html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up - Video Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #43cea2, #185a9d);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .signup-container {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px 50px;
+            width: 400px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 25px;
+            color: #333;
+            font-weight: 600;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 6px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            transition: 0.3s;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #185a9d;
+            box-shadow: 0 0 5px rgba(24, 90, 157, 0.4);
+        }
+        .btn-signup {
+            background: linear-gradient(135deg, #185a9d, #43cea2);
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: 0.3s;
+        }
+        .btn-signup:hover {
+            background: linear-gradient(135deg, #43cea2, #185a9d);
+            transform: scale(1.05);
+        }
+        .login-link {
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 14px;
+            text-decoration: none;
+            color: #185a9d;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .login-link:hover {
+            color: #43cea2;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="signup-container">
+    <h1>Create Account</h1>
+    <form th:action="@{/signup}" method="post">
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Choose a username" required>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter password" required>
+        </div>
+        <button type="submit" class="btn-signup">Sign Up</button>
+    </form>
+    <a class="login-link" th:href="@{/login}">Already have an account? Login</a>
+</div>
+</body>
+</html>
+
