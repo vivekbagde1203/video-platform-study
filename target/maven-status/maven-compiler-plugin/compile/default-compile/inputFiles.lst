@@ -1,0 +1,15 @@
+/Users/vivekbagde/Documents/projectjavavideo/video-platform-study/src/main/java/com/example/videoplatform/controller/LoginController.java
+/Users/vivekbagde/Documents/projectjavavideo/video-platform-study/src/main/java/com/example/videoplatform/service/VideoService.java
+/Users/vivekbagde/Documents/projectjavavideo/video-platform-study/src/main/java/com/example/videoplatform/controller/VideoController.java
+/Users/vivekbagde/Documents/projectjavavideo/video-platform-study/src/main/java/com/example/videoplatform/security/JwtService.java
+/Users/vivekbagde/Documents/projectjavavideo/video-platform-study/src/main/java/com/example/videoplatform/config/SecurityConfig.java
+/Users/vivekbagde/Documents/projectjavavideo/video-platform-study/src/main/java/com/example/videoplatform/controller/AdminController.java
+/Users/vivekbagde/Documents/projectjavavideo/video-platform-study/src/main/java/com/example/videoplatform/VideoPlatformApplication.java
+/Users/vivekbagde/Documents/projectjavavideo/video-platform-study/src/main/java/com/example/videoplatform/service/UserService.java
+/Users/vivekbagde/Documents/projectjavavideo/video-platform-study/src/main/java/com/example/videoplatform/controller/AuthController.java
+/Users/vivekbagde/Documents/projectjavavideo/video-platform-study/src/main/java/com/example/videoplatform/repository/UserRepository.java
+/Users/vivekbagde/Documents/projectjavavideo/video-platform-study/src/main/java/com/example/videoplatform/controller/HlsController.java
+/Users/vivekbagde/Documents/projectjavavideo/video-platform-study/src/main/java/com/example/videoplatform/model/VideoMeta.java
+/Users/vivekbagde/Documents/projectjavavideo/video-platform-study/src/main/java/com/example/videoplatform/model/AppUser.java
+/Users/vivekbagde/Documents/projectjavavideo/video-platform-study/src/main/java/com/example/videoplatform/controller/VideoWatchController.java
+/Users/vivekbagde/Documents/projectjavavideo/video-platform-study/src/main/java/com/example/videoplatform/repository/VideoRepository.java

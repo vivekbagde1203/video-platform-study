@@ -88,7 +88,7 @@ public class AdminController {
     @GetMapping("/generateHlsToken")
     public String generateHlsToken(@RequestParam String videoId, Model model) {
         String path = "/hls/" + videoId + "/playlist.m3u8";
-        String token = jwtService.createTokenForPath(path);
+        String token = jwtService.createTokenForPath(path, "admin");
         String url = "/hls/" + videoId + "/playlist.m3u8?token=" + token;
 
         model.addAttribute("hlsUrl", url);

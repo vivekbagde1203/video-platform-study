@@ -114,5 +114,11 @@ public class VideoService {
 
         repo.deleteById(id);
     }
+    public VideoMeta findByFilename(String filename) {
+        return repo.findAll().stream()
+                .filter(v -> v.getFilename().equals(filename))
+                .findFirst()
+                .orElse(null);
+    }
 }
 

@@ -94,14 +94,34 @@
 </header>
 
 <main>
-  <video controls autoplay
-         th:src="@{'/videos/stream/' + ${video.filename}}"></video>
+
+  <!-- 🎓 STUDENT VIEW (Secure HLS tokenized stream, no download or share) -->
+  <video th:if="${role == 'ROLE_STUDENT'}"
+         th:src="${streamUrl}"
+         controls autoplay
+         controlsList="nodownload"
+         disablePictureInPicture
+         oncontextmenu="return false"
+         style="width:100%;border-radius:15px;box-shadow:0 0 20px rgba(0,0,0,0.5);">
+  </video>
+
+  <!-- 👑 ADMIN VIEW (Direct full-access stream) -->
+  <video th:if="${role == 'ROLE_ADMIN'}"
+         th:src="${streamUrl}"
+         controls autoplay
+         style="width:100%;border-radius:15px;box-shadow:0 0 20px rgba(0,0,0,0.5);">
+  </video>
 
   <div class="video-details">
     <h2 th:text="${video.title != null ? video.title : video.filename}">Video Title</h2>
     <p><b>Filename:</b> <span th:text="${video.filename}"></span></p>
     <p><b>Size:</b> <span th:text="${#numbers.formatDecimal(video.size / 1048576, 1, 2)} + ' MB'">N/A</span></p>
     <p><b>Uploaded At:</b> <span th:text="${video.uploadedAt}">--</span></p>
+
+    <!-- 🔐 Display token expiry info for student -->
+    <div th:if="${role == 'ROLE_STUDENT'}" style="margin-top:10px;color:#bbb;font-size:0.85rem;">
+      <em>This secure playback link will expire in 10 minutes ⏳</em>
+    </div>
   </div>
 </main>
 
