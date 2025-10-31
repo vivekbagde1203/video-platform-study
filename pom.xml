@@ -113,13 +113,6 @@
           <!-- HTML report generation -->
           <outputFileFormat>xml</outputFileFormat>
         </configuration>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>checkstyle</report>
-            </reports>
-          </reportSet>
-        </reportSets>
       </plugin>
     </plugins>
   </build>
