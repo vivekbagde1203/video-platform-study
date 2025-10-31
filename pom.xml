@@ -85,14 +85,14 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
 
-      <!-- ✅ SonarQube Scanner Plugin -->
+      <!-- SonarQube Plugin -->
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
         <version>3.9.1.2184</version>
       </plugin>
 
-      <!-- ✅ Checkstyle Plugin with HTML + XML reports -->
+      <!-- Checkstyle Plugin (fixed) -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -116,16 +116,8 @@
           <outputFile>${project.build.directory}/checkstyle-result.xml</outputFile>
           <outputFileFormat>xml</outputFileFormat>
         </configuration>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>checkstyle</report>
-            </reports>
-          </reportSet>
-        </reportSets>
       </plugin>
 
     </plugins>
   </build>
 </project>
-
