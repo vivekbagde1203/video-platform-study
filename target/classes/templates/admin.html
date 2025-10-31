@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard | Video Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #667eea;
+      --secondary: #764ba2;
+      --accent: #43cea2;
+      --bg: #f7f8fc;
+      --card-bg: #fff;
+      --text: #333;
+      --shadow: rgba(0, 0, 0, 0.15);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+
+    .logout-btn {
+      background: none;
+      border: 1px solid white;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .logout-btn:hover {
+      background: white;
+      color: var(--secondary);
+      transform: scale(1.05);
+    }
+
+    main {
+      padding: 40px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: var(--secondary);
+    }
+
+    p.subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+    }
+
+    .stats-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 6px 20px var(--shadow);
+      padding: 25px;
+      text-align: center;
+      flex: 1 1 250px;
+      transition: 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-card h2 {
+      font-size: 2rem;
+      color: var(--secondary);
+      margin: 0;
+    }
+
+    .upload-section, .data-section {
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 6px 20px var(--shadow);
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+
+    .upload-section h2, .data-section h2 {
+      color: var(--secondary);
+      margin-bottom: 15px;
+    }
+
+    input, select {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin: 5px;
+    }
+
+    .upload-btn {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .upload-btn:hover {
+      transform: scale(1.05);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background: #f0f0f0;
+      color: var(--secondary);
+      font-weight: 600;
+    }
+
+    .delete-btn {
+      background: #ff4b5c;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .delete-btn:hover {
+      background: #ff6b81;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: var(--card-bg);
+      color: #666;
+      border-top: 1px solid #ddd;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🎬 Admin Dashboard</div>
+  <a class="logout-btn" th:href="@{/logout}">Logout</a>
+</header>
+
+<main>
+  <h1>Welcome, Admin!</h1>
+  <p class="subtitle">Manage videos, users, and secure streaming links effortlessly 🚀</p>
+
+  <!-- Dashboard Stats -->
+  <div class="stats-container">
+    <div class="stat-card">
+      <h2 th:text="${videos.size()}">0</h2>
+      <p>Total Videos</p>
+    </div>
+    <div class="stat-card">
+      <h2 th:text="${users.size()}">0</h2>
+      <p>Total Users</p>
+    </div>
+  </div>
+
+  <!-- Upload Section -->
+  <div class="upload-section">
+    <h2>📤 Upload Video</h2>
+    <form th:action="@{/admin/upload}" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept="video/*" required>
+      <button type="submit" class="upload-btn">Upload Video</button>
+    </form>
+  </div>
+
+  <!-- Videos Section -->
+  <div class="data-section">
+    <h2>🎞️ Uploaded Videos</h2>
+    <table>
+      <thead>
+      <tr><th>ID</th><th>Name</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+      <tr th:each="v : ${videos}">
+        <td th:text="${v.id}"></td>
+        <td th:text="${v.originalName}"></td>
+        <td>
+          <form th:action="@{/admin/delete}" method="post">
+            <input type="hidden" name="id" th:value="${v.id}">
+            <button type="submit" class="delete-btn">Delete</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Users Section -->
+  <div class="data-section">
+    <h2>👥 Manage Users</h2>
+    <form th:action="@{/admin/createUser}" method="post" style="margin-bottom:10px;">
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <select name="role">
+        <option value="STUDENT">STUDENT</option>
+        <option value="ADMIN">ADMIN</option>
+      </select>
+      <button type="submit" class="upload-btn">Create User</button>
+    </form>
+
+    <table>
+      <thead>
+      <tr><th>ID</th><th>User</th><th>Role</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+      <tr th:each="u : ${users}">
+        <td th:text="${u.id}"></td>
+        <td th:text="${u.username}"></td>
+        <td th:text="${u.role}"></td>
+        <td>
+          <form th:action="@{/admin/deleteUser}" method="post">
+            <input type="hidden" name="id" th:value="${u.id}">
+            <button type="submit" class="delete-btn">Delete</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- HLS Token -->
+  <div class="data-section">
+    <h2>🔑 HLS Token Generation</h2>
+    <form th:action="@{/admin/generateHlsToken}" method="get">
+      <input type="text" name="videoId" placeholder="Enter Video Folder Name" required>
+      <button type="submit" class="upload-btn">Generate Token</button>
+    </form>
+    <div th:if="${hlsUrl != null}" style="margin-top:10px;">
+      <strong>Generated HLS URL:</strong> <a th:href="${hlsUrl}" th:text="${hlsUrl}" target="_blank"></a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  © 2025 Video Platform | Admin Portal | Designed by Vivek Bagde 💻
+</footer>
+
+</body>
+</html>
+

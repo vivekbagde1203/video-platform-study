@@ -87,33 +87,6 @@
         <artifactId>sonar-maven-plugin</artifactId>
         <version>3.9.1.2184</version>
       </plugin>
-      <!-- Checkstyle Plugin -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.3.1</version>
-        <executions>
-          <execution>
-            <id>validate</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>check</goal>
-              <goal>checkstyle</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <configLocation>checkstyle.xml</configLocation>
-          <encoding>UTF-8</encoding>
-          <consoleOutput>true</consoleOutput>
-          <failsOnError>false</failsOnError>
-          <linkXRef>false</linkXRef>
-          <!-- XML report for SonarQube -->
-          <outputFile>${project.build.directory}/checkstyle-result.xml</outputFile>
-          <!-- HTML report generation -->
-          <outputFileFormat>xml</outputFileFormat>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 </project>

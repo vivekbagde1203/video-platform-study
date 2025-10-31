@@ -1,0 +1,15 @@
+com/example/videoplatform/controller/HlsController.class
+com/example/videoplatform/config/SecurityConfig.class
+com/example/videoplatform/VideoPlatformApplication.class
+com/example/videoplatform/service/UserService.class
+com/example/videoplatform/controller/AuthController.class
+com/example/videoplatform/security/JwtService.class
+com/example/videoplatform/model/AppUser.class
+com/example/videoplatform/repository/UserRepository.class
+com/example/videoplatform/controller/AdminController.class
+com/example/videoplatform/repository/VideoRepository.class
+com/example/videoplatform/service/VideoService.class
+com/example/videoplatform/controller/LoginController.class
+com/example/videoplatform/controller/VideoController.class
+com/example/videoplatform/model/VideoMeta.class
+com/example/videoplatform/controller/VideoWatchController.class
